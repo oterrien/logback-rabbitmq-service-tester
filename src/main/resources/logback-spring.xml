@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <springProfile name="console-log">
+        <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="file-log">
+        <springProperty name="LOG_FILE_TEMPLATE" source="spring.application.name"/>
+        <springProperty name="LOG_DIR" source="logging.file.dir"/>
+        <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+            <file>${LOG_DIR}/${LOG_FILE_TEMPLATE}.log</file>
+            <encoder>
+                <charset>UTF-8</charset>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="FILE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="rabbitmq-log">
+        <springProperty name="VIRTUAL_HOST" source="spring.rabbitmq.virtual-host"/>
+        <springProperty name="HOST" source="spring.rabbitmq.host"/>
+        <springProperty name="PORT" source="spring.rabbitmq.port"/>
+        <springProperty name="USERNAME" source="spring.rabbitmq.username"/>
+        <springProperty name="PASSWORD" source="spring.rabbitmq.password"/>
+        <springProperty name="QUEUE" source="rabbitmq.queue.log"/>
+        <appender name="RABBITMQ" class="com.ote.test.logback.appender.RabbitMQAppender">
+            <virtualHost>${VIRTUAL_HOST}</virtualHost>
+            <host>${HOST}</host>
+            <port>${PORT}</port>
+            <username>${USERNAME}</username>
+            <password>${PASSWORD}</password>
+            <queue>${QUEUE}</queue>
+            <encoder>
+                <charset>UTF-8</charset>
+                <pattern>${FILE_LOG_PATTERN}</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="RABBITMQ"/>
+        </root>
+    </springProfile>
+</configuration>

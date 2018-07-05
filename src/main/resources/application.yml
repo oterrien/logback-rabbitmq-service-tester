@@ -1,0 +1,23 @@
+logging:
+  file.dir: logs
+  level:
+    org.springframework: INFO
+    com.ote.test: TRACE
+
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: console-log, file-log, rabbitmq-log
+#    active: console-log
+  rabbitmq:
+    virtual-host: test
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+rabbitmq:
+  queue:
+    log: logstash
