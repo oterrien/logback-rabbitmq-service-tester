@@ -1,7 +1,7 @@
 logging:
   file.dir: logs
   level:
-    org.springframework: INFO
+    org.springframework.web: INFO
     com.ote.test: TRACE
 
 server:
@@ -10,6 +10,8 @@ server:
 spring:
   profiles:
     active: console-log, file-log, rabbitmq-log
+  main:
+    banner-mode: LOG
 #    active: console-log
   rabbitmq:
     virtual-host: test
